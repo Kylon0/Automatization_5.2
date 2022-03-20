@@ -24,20 +24,12 @@ public class DataGenerator {
             .build();
 
     public class Registration {
-        public static RegistrationDto generateActive(String locale) {
+        public static RegistrationDto generateUser(String locale, String status) {
             Faker faker = new Faker(new Locale(locale));
             return new RegistrationDto(
                     faker.name().firstName(),
                     faker.internet().password(),
-                    "active"
-            );
-        }
-        public static RegistrationDto generateInactive(String locale) {
-            Faker faker = new Faker(new Locale(locale));
-            return new RegistrationDto(
-                    faker.name().firstName(),
-                    faker.internet().password(),
-                    "blocked"
+                    status
             );
         }
     }
