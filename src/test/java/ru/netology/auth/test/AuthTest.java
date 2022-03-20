@@ -75,7 +75,7 @@ class AuthTest {
             $(withText("Продолжить")).click();
             $(withText("Ошибка")).shouldBe(Condition.visible);
             $("[data-test-id=error-notification]").shouldHave(Condition.text("Ошибка\n" +
-                    "Ошибка! Неверно указан логин или пароль"));
+                    "Ошибка! Пользователь заблокирован"));
         }
     }
 }
