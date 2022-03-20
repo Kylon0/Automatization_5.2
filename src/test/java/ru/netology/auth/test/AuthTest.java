@@ -15,8 +15,8 @@ import static com.codeborne.selenide.Selenide.open;
 class AuthTest {
     @Test
     void validUser() {
-        DataClass.RegistrationDto user = DataClass.DataGenerator.Registration.generateInfo("en");
-        DataClass.DataGenerator.sendRequest(user);
+        DataGenerator.RegistrationDto user = DataGenerator.Registration.generateActive("en");
+        DataGenerator.sendRequest(user);
         open("http://localhost:9999");
         {
             $("[data-test-id=login] input").setValue(user.login);
@@ -28,8 +28,8 @@ class AuthTest {
 
     @Test
         void invalidLogin(){
-        DataClass.RegistrationDto user = DataClass.DataGenerator.Registration.generateInfo("en");
-        DataClass.DataGenerator.sendRequest(user);
+        DataGenerator.RegistrationDto user = DataGenerator.Registration.generateActive("en");
+        DataGenerator.sendRequest(user);
         open("http://localhost:9999");
         {
             $("[data-test-id=login] input").setValue("Alex");
@@ -43,8 +43,23 @@ class AuthTest {
 
     @Test
     void invalidPassword(){
-        DataClass.RegistrationDto user = DataClass.DataGenerator.Registration.generateInfo("en");
-        DataClass.DataGenerator.sendRequest(user);
+        DataGenerator.RegistrationDto user = DataGenerator.Registration.generateActive("en");
+        DataGenerator.sendRequest(user);
+        open("http://localhost:9999");
+        {
+            $("[data-test-id=login] input").setValue(user.login);
+            $("[data-test-id=password] input").setValue("fjeiw213");
+            $(withText("Продолжить")).click();
+            $(withText("Ошибка")).shouldBe(Condition.visible);
+            $("[data-test-id=error-notification]").shouldHave(Condition.text("Ошибка\n" +
+                    "Ошибка! Неверно указан логин или пароль"));
+        }
+    }
+
+    @Test
+    void userUnregistered(){
+        DataGenerator.RegistrationDto user = DataGenerator.Registration.generateInactive("en");
+        DataGenerator.sendRequest(user);
         open("http://localhost:9999");
         {
             $("[data-test-id=login] input").setValue(user.login);
