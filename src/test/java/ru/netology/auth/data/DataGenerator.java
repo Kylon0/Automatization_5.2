@@ -44,6 +44,16 @@ public class DataGenerator {
                 .statusCode(200);
     }
 
+    public String generateName () {
+        Faker faker = new Faker(new Locale("en"));
+        return faker.name().firstName();
+    }
+
+    public String generatePassword () {
+        Faker faker = new Faker(new Locale("en"));
+        return faker.internet().password();
+    }
+
     @Value
     public static class RegistrationDto {
         public final String login;
